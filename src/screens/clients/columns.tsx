@@ -42,7 +42,6 @@ export const columns = (setClient: React.Dispatch<React.SetStateAction<Client[]>
                         className='items-center justify-center p-3 rounded-md bg-white hover:bg-[#23CFCE] dark:bg-[#212121] dark:hover:bg-[#23CFCE] group'>
                         <Pen className='text-black dark:text-white dark:group-hover:text-black' strokeWidth={2} style={{ 'width': 19, 'height': 19}} />
                     </Link>
-
                 </div>
             )
         }
