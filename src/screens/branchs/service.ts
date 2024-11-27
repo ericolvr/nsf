@@ -55,6 +55,17 @@ class ApiBranch {
             console.log(error)
         }
     }
+    static async Delete(id) {
+        try {
+            const response = await axios.delete(
+                `${BASE_URL}/branchs/delete/${id}`
+            )
+            if (response.status === 204) {
+                return response.status
+            }
+            return response.data
+        } catch (error) {}
+    }
 }
 
 export default ApiBranch
