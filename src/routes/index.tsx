@@ -6,17 +6,23 @@ import {
 import { PrivateRoutes } from '@/routes/privateRoutes'  
 import { SignIn } from '@/screens/signin'
 import { Dashboard } from '@/screens/dashboard'
+
 import { ListUsers } from '@/screens/users/list'
 import { AddUsers } from '@/screens/users/add'
 import { EditUser } from '@/screens/users/edit'
 
 import { ListRegisters } from '@/screens/registers/list'
 import { AddRegisters } from '@/screens/registers/add'
+import { EditRegisters } from '@/screens/registers/edit'
 
 import { ListClients } from '@/screens/clients/list'
 import { AddClients } from '@/screens/clients/add'
-import { EditRegisters } from '@/screens/registers/edit'
+import { EditClients } from '@/screens/clients/edit'
 
+import { BranchSelect } from '@/screens/branchs'
+import { BranchsList } from '@/screens/branchs/list'
+import { AddBranchs } from '@/screens/branchs/add'
+import { EditBranchs } from '@/screens/branchs/edit'
 
 import { Unauthorized } from '@/screens/unauthorized'
 
@@ -78,6 +84,36 @@ export const AppRoutes = () => {
                 <Route path='/clients/add' element={
                     <PrivateRoutes allowedRoles={['0', '1']}>
                         <AddClients />
+                    </PrivateRoutes>
+                    } 
+                />
+                <Route path='/clients/edit/:id' element={
+                    <PrivateRoutes allowedRoles={['0', '1']}>
+                        <EditClients />
+                    </PrivateRoutes>
+                    } 
+                />
+                <Route path='/branchs/select' element={
+                    <PrivateRoutes allowedRoles={['0', '1']}>
+                        <BranchSelect />
+                    </PrivateRoutes>
+                    } 
+                />
+                <Route path='/branchs/list/:client' element={
+                    <PrivateRoutes allowedRoles={['0', '1']}>
+                        <BranchsList />
+                    </PrivateRoutes>
+                    } 
+                />
+                <Route path='/branchs/add' element={
+                    <PrivateRoutes allowedRoles={['0', '1']}>
+                        <AddBranchs />
+                    </PrivateRoutes>
+                    } 
+                />
+                <Route path='/branchs/edit/:id' element={
+                    <PrivateRoutes allowedRoles={['0', '1']}>
+                        <EditBranchs />
                     </PrivateRoutes>
                     } 
                 />
