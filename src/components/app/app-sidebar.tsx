@@ -88,7 +88,7 @@ export function AppSidebar() {
                             role === '0' && (
                                 <SidebarMenu>
                                     <SidebarMenuItem>
-                                        <Link to='/tickets' className='flex items-center ml-2'>
+                                        <Link to='/serials' className='flex items-center ml-2'>
                                             <SidebarMenuButton className='h-12 hover:bg-[#23CFCE] dark:hover:bg-[#23CFCE] dark:hover:text-black'>
                                                 <QrCode style={{ width: '20px', height: '20px' }} />
                                                 <span className='font-mono ml-4'>Seriais</span>
@@ -96,7 +96,7 @@ export function AppSidebar() {
                                         </Link>
                                     </SidebarMenuItem>
                                     <SidebarMenuItem>
-                                        <Link to='/appointments' className='flex items-center ml-2'>
+                                        <Link to='/registers' className='flex items-center ml-2'>
                                             <SidebarMenuButton className='h-12 hover:bg-[#23CFCE] dark:hover:bg-[#23CFCE] dark:hover:text-black'>
                                                 <DatabaseZap style={{ width: '20px', height: '20px' }} />
                                                 <span className='font-mono ml-4'>Registradores</span>
@@ -104,7 +104,7 @@ export function AppSidebar() {
                                         </Link>
                                     </SidebarMenuItem>
                                     <SidebarMenuItem>
-                                        <Link to='/suppliers' className='flex items-center ml-2'>
+                                        <Link to='/clients' className='flex items-center ml-2'>
                                             <SidebarMenuButton className='h-12 hover:bg-[#23CFCE] dark:hover:bg-[#23CFCE] dark:hover:text-black'>
                                                 <Users style={{ width: '21px', height: '21px' }} />
                                                 <span className='font-mono ml-4'>Clientes</span>
@@ -112,7 +112,7 @@ export function AppSidebar() {
                                         </Link>
                                     </SidebarMenuItem>
                                     <SidebarMenuItem>
-                                        <Link to='/branchs' className='flex items-center ml-2'>
+                                        <Link to='/branchs/select' className='flex items-center ml-2'>
                                             <SidebarMenuButton className='h-12 hover:bg-[#23CFCE] dark:hover:bg-[#23CFCE] dark:hover:text-black'>
                                                 <Building style={{ width: '21px', height: '21px' }} />
                                                 <span className='font-mono ml-4'>Agências</span>
