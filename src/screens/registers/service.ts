@@ -59,7 +59,17 @@ class ApiRegister {
         }
     }
 
-
+    static async Delete(id) {
+        try {
+            const response = await axios.delete(
+                `${BASE_URL}/registers/delete/${id}`
+            )
+            if (response.status === 204) {
+                return response.status
+            }
+            return response.data
+        } catch (error) {}
+    }
 }
 
 export default ApiRegister
