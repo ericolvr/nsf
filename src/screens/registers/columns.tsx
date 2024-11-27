@@ -27,12 +27,12 @@ const deleteRegister = async (id: string, address: string, setRegister: React.Di
     if (window.confirm(`Confirma a exclusão do Registrador ${address}?`)) {
         try {
             await ApiRegister.Delete(id)
-            setRegister(prevRegisters => prevRegisters.filter(address => address.id !== id));  // Update state
+            setRegister(prevRegisters => prevRegisters.filter(address => address.id !== id))
         } catch (error) {
-            console.error("Error deleting serial:", error);
+            console.error("Error deleting serial:", error)
         }
     }
-};
+}
 
 
 export const columns = (setRegister: React.Dispatch<React.SetStateAction<Register[]>>): ColumnDef<Register>[] => [
