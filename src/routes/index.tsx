@@ -24,7 +24,10 @@ import { BranchsList } from '@/screens/branchs/list'
 import { AddBranchs } from '@/screens/branchs/add'
 import { EditBranchs } from '@/screens/branchs/edit'
 
+import { SerialsList } from '@/screens/serials/list'
+
 import { Unauthorized } from '@/screens/unauthorized'
+import { AddSerials } from '@/screens/serials/add'
 
 export const AppRoutes = () => {
     return (
@@ -55,6 +58,7 @@ export const AppRoutes = () => {
                     </PrivateRoutes>
                     } 
                 />
+
                 <Route path='/registers' element={
                     <PrivateRoutes allowedRoles={['0', '1']}>
                         <ListRegisters />
@@ -74,7 +78,6 @@ export const AppRoutes = () => {
                     } 
                 />
 
-                
                 <Route path='/clients' element={
                     <PrivateRoutes allowedRoles={['0', '1']}>
                         <ListClients />
@@ -93,6 +96,7 @@ export const AppRoutes = () => {
                     </PrivateRoutes>
                     } 
                 />
+
                 <Route path='/branchs/select' element={
                     <PrivateRoutes allowedRoles={['0', '1']}>
                         <BranchSelect />
@@ -114,6 +118,19 @@ export const AppRoutes = () => {
                 <Route path='/branchs/edit/:id' element={
                     <PrivateRoutes allowedRoles={['0', '1']}>
                         <EditBranchs />
+                    </PrivateRoutes>
+                    } 
+                />
+
+                <Route path='/serials' element={
+                    <PrivateRoutes allowedRoles={['0', '1']}>
+                        <SerialsList />
+                    </PrivateRoutes>
+                    } 
+                />
+                <Route path='/serials/add' element={
+                    <PrivateRoutes allowedRoles={['0', '1']}>
+                        <AddSerials />
                     </PrivateRoutes>
                     } 
                 />
