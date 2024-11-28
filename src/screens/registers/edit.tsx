@@ -46,10 +46,10 @@ const FormSchema = z.object({
     client: z.string({required_error: "Selecione o cliente"}),
     equipment: z.string({required_error: "Selecione o equipamento"}),
     register_type: z.string({required_error: "Selecione o tipo"}),
-
     address: z.string().min(1, { message: 'Informe o número do registrador' }),
     value: z.string().min(1, {message: 'Mínimo 1 caracter'}),
     description: z.string().min(3, {message: 'Mínimo 3 caracteres'}),  
+    special: z.string({required_error: "Selecione se é único"}),
 })
 
 
@@ -64,14 +64,13 @@ export function EditRegisters() {
         resolver: zodResolver(FormSchema),
     })
 
-    
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         try {
             const response = await ApiRegister.Update({ id, data })
             if (response === 200) {                
                 navigate('/registers')
             } else {
-                toast.error('Error editing register');
+                console.log('Error updating register')
             }
         } catch (error) {
             console.log(error)
@@ -91,6 +90,7 @@ export function EditRegisters() {
         const response = await ApiRegister.GetRegisterByID({ id })
         if (response) {
             setRegisters(response)
+            form.setValue('special', response.special)
             form.setValue('client', response.client.toString())
             form.setValue('equipment', response.equipment.toString())
             form.setValue('address', response.address)
@@ -185,7 +185,7 @@ export function EditRegisters() {
                                         )} /> 
                                     </div>
 
-                                    <div className='w-1/2'>
+                                    <div className='w-1/2 mr-8'>
                                         <FormField
                                             control={form.control}
                                             name="equipment"
@@ -220,10 +220,7 @@ export function EditRegisters() {
                                                 </FormItem>
                                         )} /> 
                                     </div>
-                                </div>
-
-                                <div className='flex items-center mt-5'>
-                                    <div className='w-1/2 mr-8'>
+                                    <div className='w-1/2'>
                                         <FormField
                                             control={form.control}
                                             name="register_type"
@@ -248,6 +245,41 @@ export function EditRegisters() {
                                                                     
                                                                     <SelectItem value='0'>Leitura</SelectItem>
                                                                     <SelectItem value='1'>Escrita</SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        )}
+                                                    <FormMessage />
+                                                </FormItem>
+                                        )} /> 
+                                    </div>
+                                </div>
+
+                                <div className='flex items-center mt-5'>
+                                    <div className='w-1/2 mr-8'>
+                                        <FormField
+                                            control={form.control}
+                                            name="special"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Escrita Única</FormLabel>
+                                                    { loading ? (
+                                                            <p>loading</p>
+                                                        ) : (
+                                                            <Select
+                                                                defaultValue={registers && registers.special === '0' ? 'Não' : 'Sim' ? registers.special.toString() : ''}
+                                                                onValueChange={value => {
+                                                                    field.onChange(value)
+                                                                }}
+                                                            >
+                                                                <FormControl>
+                                                                    <SelectTrigger>
+                                                                        <SelectValue placeholder='Escrita Única' />
+                                                                    </SelectTrigger>
+                                                                </FormControl>
+                                                                <SelectContent>
+                                                                    
+                                                                    <SelectItem value='0'>Não</SelectItem>
+                                                                    <SelectItem value='1'>Sim</SelectItem>
                                                                 </SelectContent>
                                                             </Select>
                                                         )}

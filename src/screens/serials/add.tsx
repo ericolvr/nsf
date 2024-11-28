@@ -5,8 +5,7 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { toast } from 'sonner'
+import { Switch } from '@/components/ui/switch'
 import { 
     Breadcrumb, 
     BreadcrumbList, 
@@ -21,7 +20,7 @@ import {
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
+    FormMessage
 } from '@/components/ui/form'
 import {
     Select,
@@ -38,47 +37,37 @@ import {
     SidebarTrigger 
 } from '@/components/ui/sidebar'
 
-import ApiRegister from './service'
 import ApiClient from '../clients/service'
+import ApiBranch from '../branchs/service'
+import ApiSerial from './service'
 
 
 const FormSchema = z.object({
-    client: z.string({required_error: "Selecione o cliente"}),
+    step: z.string({required_error: "Selecione a fase"}),
     equipment: z.string({required_error: "Selecione o equipamento"}),
-    register_type: z.string({required_error: "Selecione o tipo"}),
-
-    address: z.string().min(1, { message: 'Informe o número do registrador' }),
-    value: z.string().min(1, {message: 'Mínimo 1 caracter'}),
-    description: z.string().min(3, {message: 'Mínimo 3 caracteres'}),  
-    special: z.string({required_error: "Selecione o se é único"}),
+    client_name: z.string({required_error: "Selecione o cliente"}),
+    uniorg: z.string().min(4, { message: 'Informe o uniorg da agência' }),
 })
 
 
-export function AddRegisters() {
+export function AddSerials() {
     const navigate = useNavigate()
     const [clients, setClients] = useState([])
+    const [branchs, setBranchs] = useState([])
+    const [control, setControl] = useState(true)
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
-        defaultValues: {
-            client: '',
-            equipment: '',
-            register_type: '',
-            address: '',
-            value: '',
-            description: '',
-            special: ''
-        }
     })
-
     
     async function onSubmit(data: z.infer<typeof FormSchema>) {
+        // console.log(data, 'INSERT')
         try {
-            const response = await ApiRegister.Insert({ data })
+            const response = await ApiSerial.Insert({ data })
             if (response === 201) {                
-                navigate('/registers')
+                navigate('/serials')
             } else {
-                toast.error('Error adding branch');
+                console.log('Error inserting branch')
             }
         } catch (error) {
             console.log(error)
@@ -90,7 +79,21 @@ export function AddRegisters() {
         if (response) {
             setClients(response)
         } else {
-            console.log('Error fetching clients')
+            console.log('Error fetching clients on serial')
+        }
+    }
+    
+    async function onClientChange(value: string) {
+        getBranchs(value);
+    }
+
+    const getBranchs = async (client: string) => {
+        const response = await ApiBranch.GetBranchsByClients({ client })
+        if(response && response.length > 0) {
+            setBranchs(response)
+            setControl(false)
+        } else {
+            setControl(true)
         }
     }
 
@@ -117,7 +120,7 @@ export function AddRegisters() {
                                     <BreadcrumbSeparator className='hidden md:block' />
                                     <BreadcrumbItem className='hidden md:block'>
                                         <BreadcrumbLink>
-                                            <Link to='/registers'>Registradores</Link>
+                                            <Link to='/serials'>Seriais</Link>
                                         </BreadcrumbLink>
                                     </BreadcrumbItem>
                                     <BreadcrumbSeparator className='hidden md:block' />
@@ -139,10 +142,10 @@ export function AddRegisters() {
                                     <div className='w-1/2 mr-8'>
                                         <FormField
                                             control={form.control}
-                                            name="client"
+                                            name="step"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Cliente</FormLabel>
+                                                    <FormLabel>Fase</FormLabel>
                                                     <Select 
                                                         onValueChange={(value) => {
                                                             field.onChange(value);
@@ -151,17 +154,14 @@ export function AddRegisters() {
                                                     >
                                                         <FormControl>
                                                             <SelectTrigger>
-                                                                <SelectValue placeholder="Selecione o Cliente" />
+                                                                <SelectValue placeholder="Selecione a Fase" />
                                                             </SelectTrigger>
                                                         </FormControl>
                                                         <SelectContent>
-                                                            {
-                                                                clients.map((client) => {
-                                                                    return (
-                                                                        <SelectItem key={client.id} value={client.name}>{client.name}</SelectItem>
-                                                                    )
-                                                                })
-                                                            }
+                                                            <SelectItem value="3">Estoque</SelectItem>
+                                                            <SelectItem value="4">Financeiro</SelectItem>
+                                                            <SelectItem value="2">Operacional</SelectItem>
+                                                            <SelectItem value="1">Produção</SelectItem>
                                                         </SelectContent>
                                                     </Select>
                                                 <FormMessage />
@@ -169,7 +169,7 @@ export function AddRegisters() {
                                         )} /> 
                                     </div>
 
-                                    <div className='w-1/2 mr-8'>
+                                    <div className='w-1/2'>
                                         <FormField
                                             control={form.control}
                                             name="equipment"
@@ -197,107 +197,74 @@ export function AddRegisters() {
                                             </FormItem>
                                         )} /> 
                                     </div>
+                                </div>
+
+                                <div className="flex items-center mt-5">
+                                    <div className='w-1/2 mr-8'>
+                                        <FormField
+                                                control={form.control}
+                                                name="client_name"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Cliente</FormLabel>
+                                                        <Select 
+                                                            onValueChange={(value) => {
+                                                                field.onChange(value);
+                                                                onClientChange(value);
+                                                            }} 
+                                                            defaultValue={field.value}
+                                                        >
+                                                            <FormControl>
+                                                                <SelectTrigger>
+                                                                    <SelectValue placeholder="Selecione o Cliente" />
+                                                                </SelectTrigger>
+                                                            </FormControl>
+                                                            <SelectContent>
+                                                                {
+                                                                    clients.length ? (
+                                                                        clients.map((client: { id: string, name: string}) => (
+                                                                            <SelectItem key={client.id} value={client.name}>{client.name}</SelectItem>
+                                                                        ))
+                                                                    ) : (
+                                                                        <SelectItem value="Nenhum cliente encontrado">Nenhum cliente encontrado</SelectItem>
+                                                                    )
+                                                                }
+                                                            </SelectContent>
+                                                        </Select>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )} /> 
+                                    </div>
+                                        
                                     <div className='w-1/2'>
                                         <FormField
                                             control={form.control}
-                                            name="register_type"
+                                            name="uniorg"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Tipo</FormLabel>
-                                                    <Select 
-                                                        onValueChange={(value) => {
-                                                            field.onChange(value);
-                                                        }} 
-                                                        defaultValue={field.value}
-                                                    >
+                                                    <FormLabel>Uniorg</FormLabel>
+                                                    <Select onValueChange={field.onChange} defaultValue={field.value} disabled={control ? true : false}>
                                                         <FormControl>
                                                             <SelectTrigger>
-                                                                <SelectValue placeholder="Tipo de Registrador" />
+                                                                <SelectValue placeholder="Selecione a Agência" />
                                                             </SelectTrigger>
                                                         </FormControl>
                                                         <SelectContent>
-                                                            <SelectItem key={0} value='0'>Leitura</SelectItem>
-                                                            <SelectItem key={1} value='1'>Escrita</SelectItem>
+                                                            {
+                                                                branchs.length ? (
+                                                                    branchs.map((branch: { id: string, uniorg: string}) => (
+                                                                        <SelectItem key={branch.id} value={branch.uniorg}>{branch.uniorg}</SelectItem>
+                                                                    ))
+                                                                ) : (
+                                                                    <SelectItem value="Nenhum branch encontrado">Nenhum branch encontrado</SelectItem>
+                                                                )
+                                                            }
                                                         </SelectContent>
                                                     </Select>
                                                 <FormMessage />
                                             </FormItem>
                                         )} /> 
-                                    </div>
-                                </div>
-
-                                <div className='flex items-center mt-5'>
-                                    <div className='w-1/2 mr-8'>
-                                        <FormField
-                                            control={form.control}
-                                            name="special"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Escrita Única</FormLabel>
-                                                    <Select 
-                                                        onValueChange={(value) => {
-                                                            field.onChange(value);
-                                                        }} 
-                                                        defaultValue={field.value}
-                                                    >
-                                                        <FormControl>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Escrita Única" />
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            <SelectItem key={0} value='0'>Não</SelectItem>
-                                                            <SelectItem key={1} value='1'>Sim</SelectItem>
-                                                        </SelectContent>
-                                                    </Select>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )} /> 
-                                    </div>
-
-                                    <div className='w-1/2 mr-8'>
-                                        <FormField
-                                            control={form.control}
-                                            name='address'
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Registrador</FormLabel>
-                                                    <Input placeholder='Número do Registrador' {...field} />
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </div>
-
-                                    <div className='w-1/2'>
-                                        <FormField
-                                            control={form.control}
-                                            name='value'
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Valor</FormLabel>
-                                                    <Input placeholder='Valor do Registrador' {...field} />
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className='flex items-center mt-5'>
-                                    <div className='w-full'>
-                                        <FormField
-                                            control={form.control}
-                                            name='description'
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Descrição</FormLabel>
-                                                    <Input placeholder='Breve Descrição' {...field} />
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </div>    
+                                    </div>                                   
                                 </div>
 
                                 <div className='pt-7'>
