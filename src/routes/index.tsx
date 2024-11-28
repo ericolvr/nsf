@@ -25,9 +25,10 @@ import { AddBranchs } from '@/screens/branchs/add'
 import { EditBranchs } from '@/screens/branchs/edit'
 
 import { SerialsList } from '@/screens/serials/list'
+import { AddSerials } from '@/screens/serials/add'
+import { EditSerials } from '@/screens/serials/edit'
 
 import { Unauthorized } from '@/screens/unauthorized'
-import { AddSerials } from '@/screens/serials/add'
 
 export const AppRoutes = () => {
     return (
@@ -131,6 +132,12 @@ export const AppRoutes = () => {
                 <Route path='/serials/add' element={
                     <PrivateRoutes allowedRoles={['0', '1']}>
                         <AddSerials />
+                    </PrivateRoutes>
+                    } 
+                />
+                <Route path='/serials/edit/:id' element={
+                    <PrivateRoutes allowedRoles={['0', '1']}>
+                        <EditSerials />
                     </PrivateRoutes>
                     } 
                 />

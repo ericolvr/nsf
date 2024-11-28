@@ -22,7 +22,6 @@ import {
 } from '@/components/ui/table'
 
 import { Input } from '@/components/ui/input'
-
 import { Link } from 'react-router-dom'
 import { Pager } from '@/components/app/pagination'
 
@@ -59,10 +58,10 @@ export function DataTable<TData, TValue>({
 			<div>
 				<div className='flex justify-between items-center pb-4'>
 					<Input
-						placeholder='Pesquisar por Nome ...'
-						value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+						placeholder='Pesquisar por Uniorg ...'
+						value={(table.getColumn('serial_number')?.getFilterValue() as string) ?? ''}
 						onChange={(event) =>
-							table.getColumn('name')?.setFilterValue(event.target.value)
+							table.getColumn('serial_number')?.setFilterValue(event.target.value)
 						}
 						className='max-w-sm ml-2 mt-1 mb-2'
 					/>

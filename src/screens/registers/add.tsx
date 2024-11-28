@@ -50,6 +50,7 @@ const FormSchema = z.object({
     address: z.string().min(1, { message: 'Informe o número do registrador' }),
     value: z.string().min(1, {message: 'Mínimo 1 caracter'}),
     description: z.string().min(3, {message: 'Mínimo 3 caracteres'}),  
+    special: z.string({required_error: "Selecione o se é único"}),
 })
 
 
@@ -65,7 +66,8 @@ export function AddRegisters() {
             register_type: '',
             address: '',
             value: '',
-            description: ''
+            description: '',
+            special: ''
         }
     })
 
@@ -167,7 +169,7 @@ export function AddRegisters() {
                                         )} /> 
                                     </div>
 
-                                    <div className='w-1/2'>
+                                    <div className='w-1/2 mr-8'>
                                         <FormField
                                             control={form.control}
                                             name="equipment"
@@ -195,10 +197,7 @@ export function AddRegisters() {
                                             </FormItem>
                                         )} /> 
                                     </div>
-                                </div>
-
-                                <div className='flex items-center mt-5'>
-                                    <div className='w-1/2 mr-8'>
+                                    <div className='w-1/2'>
                                         <FormField
                                             control={form.control}
                                             name="register_type"
@@ -219,6 +218,36 @@ export function AddRegisters() {
                                                         <SelectContent>
                                                             <SelectItem key={0} value='0'>Leitura</SelectItem>
                                                             <SelectItem key={1} value='1'>Escrita</SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )} /> 
+                                    </div>
+                                </div>
+
+                                <div className='flex items-center mt-5'>
+                                    <div className='w-1/2 mr-8'>
+                                        <FormField
+                                            control={form.control}
+                                            name="special"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Escrita Única</FormLabel>
+                                                    <Select 
+                                                        onValueChange={(value) => {
+                                                            field.onChange(value);
+                                                        }} 
+                                                        defaultValue={field.value}
+                                                    >
+                                                        <FormControl>
+                                                            <SelectTrigger>
+                                                                <SelectValue placeholder="Escrita Única" />
+                                                            </SelectTrigger>
+                                                        </FormControl>
+                                                        <SelectContent>
+                                                            <SelectItem key={0} value='0'>Não</SelectItem>
+                                                            <SelectItem key={1} value='1'>Sim</SelectItem>
                                                         </SelectContent>
                                                     </Select>
                                                 <FormMessage />
