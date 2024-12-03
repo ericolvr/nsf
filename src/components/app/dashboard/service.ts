@@ -6,14 +6,14 @@ const RASP_URL = import.meta.env.VITE_RASP_URL;
 class ApiDashboard {
     static async GetLast() {
         try {
-            const response = await axios.get(`${BASE_URL}/serials/last`);
-            if (response.status === 201) {
-                return response.data;
-            }
-            return response.data;
-        } catch (error) {
-            console.log(error);
-        }
+            const response = await axios.get(`${BASE_URL}/serials/last`)
+        //     if (response.status === 201) {
+        //         return response.data;
+        //     }
+        //     return response.data;
+        // } catch (error) {
+        //     console.log(error);
+        // }
     }
 
     static async List() {

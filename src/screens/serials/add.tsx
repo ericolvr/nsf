@@ -55,23 +55,25 @@ export function AddSerials() {
     const [clients, setClients] = useState([])
     const [branchs, setBranchs] = useState([])
     const [control, setControl] = useState(true)
+    const [loading, setLoading] = useState(false)
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     })
     
     async function onSubmit(data: z.infer<typeof FormSchema>) {
-        // console.log(data, 'INSERT')
+        setLoading(true)
         try {
             const response = await ApiSerial.Insert({ data })
             if (response === 201) {                
-                navigate('/serials')
+                navigate('/serials/results')
             } else {
                 console.log('Error inserting branch')
             }
         } catch (error) {
             console.log(error)
         }
+        setLoading(false)
     }
 
     const clientList = async () => {
@@ -268,10 +270,20 @@ export function AddSerials() {
                                 </div>
 
                                 <div className='pt-7'>
-                                    <Button type='submit' 
-                                        className='bg-black hover:bg-[#23CFCE] text-white dark:bg-[#212121] dark:text-white dark:hover:bg-[#23CFCE] dark:hover:text-black'>
-                                        Adicionar
-                                    </Button>
+                                {
+                                            loading ? (
+                                                <Button type='submit' 
+                                                    className='bg-[#23CFCE] hover:bg-[#23CFCE] text-white dark:bg-[#212121] dark:text-white dark:hover:bg-[#23CFCE] dark:hover:text-black' disabled>
+                                                        Aguarde
+                                                </Button>
+                                            ) : (
+                                                <Button type='submit' 
+                                                    className='bg-black hover:bg-[#23CFCE] text-white dark:bg-[#212121] dark:text-white dark:hover:bg-[#23CFCE] dark:hover:text-black'>
+                                                        Adicionar
+                                                </Button>
+                                            )
+                                        }
+                                    
                                 </div>
                             </form>    
                         </Form>
