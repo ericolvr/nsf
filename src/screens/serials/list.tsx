@@ -16,6 +16,7 @@ import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
 import { DataTable } from './data-table'
 import { columns } from './columns'
 import ApiSerial from './service'
+import { SerialPort } from '@/components/app/serialPort'
 
 
 export function SerialsList() {
@@ -57,9 +58,12 @@ export function SerialsList() {
                                 </BreadcrumbList>
                             </Breadcrumb>
                         </div>
-                    <div className='pr-8'>
-                        <ToggleTheme />
-                    </div>
+                        <div className='pr-8'>
+                            <div className='flex items-center gap-2'>
+                                <SerialPort />
+                                <ToggleTheme />
+                            </div>
+                        </div>
                 </header>
 
                 <div className='flex flex-1 flex-col  p-4 mt-1 mr-3 ml-3'>

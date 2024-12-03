@@ -29,6 +29,9 @@ import { AddSerials } from '@/screens/serials/add'
 import { EditSerials } from '@/screens/serials/edit'
 
 import { Unauthorized } from '@/screens/unauthorized'
+import { SerialsResults } from '@/screens/serials/results'
+import { TriggerGN } from '@/screens/serials/triggerGN'
+import { ReadSingle } from '@/screens/serials/readSingle'
 
 export const AppRoutes = () => {
     return (
@@ -138,6 +141,26 @@ export const AppRoutes = () => {
                 <Route path='/serials/edit/:id' element={
                     <PrivateRoutes allowedRoles={['0', '1']}>
                         <EditSerials />
+                    </PrivateRoutes>
+                    } 
+                />
+
+                <Route path='/serials/results' element={
+                    <PrivateRoutes allowedRoles={['0', '1']}>
+                        <SerialsResults />
+                    </PrivateRoutes>
+                    } 
+                />
+                <Route path='/serials/cmd/countdown' element={
+                    <PrivateRoutes allowedRoles={['0', '1']}>
+                        <TriggerGN />
+                    </PrivateRoutes>
+                    } 
+                />
+
+                <Route path='/serials/results/:register' element={
+                    <PrivateRoutes allowedRoles={['0', '1']}>
+                        <ReadSingle />
                     </PrivateRoutes>
                     } 
                 />

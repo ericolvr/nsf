@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from 'react'
 import Storage from '@/storage'
-import { set } from 'date-fns'
 
 export const AuthContext = createContext({})
 
@@ -11,9 +10,9 @@ export const AuthProvider = ({ children }) => {
     const [initials, setInitials] = useState<string>('')
     const [role, setRole] = useState<string>('')
     const [token, setToken] = useState<string>('')
+    const [port, setPort] = useState<boolean>(false)
     const [loading, setLoading] = useState(true)
 
-    // check dependencies nad delete
     const HandleAuthenticated = async (status: boolean) => {
         setAuthenticated(status)
     }
@@ -66,6 +65,10 @@ export const AuthProvider = ({ children }) => {
         setSupplierId('')
     }
 
+    const UpdatePort = (status: boolean) => {
+        setPort(status)
+    }
+
     useEffect(() => {
         getUserData()
         setLoading(false)
@@ -83,9 +86,11 @@ export const AuthProvider = ({ children }) => {
             initials,
             role,
             token,
+            port,
             HandleAuthenticated,
             HandleUserData,
-            deleteToken
+            deleteToken,
+            UpdatePort
         }}>
             {children}
         </AuthContext.Provider>
