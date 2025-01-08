@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom'
 
 const userMap = {
     0: 'Admin',
-    1: 'Fornecedor',
-    2: 'Suporte',
+    1: 'Operacional',
+    
 }
 
 export type User = {
