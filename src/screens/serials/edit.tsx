@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
-import { Switch } from '@/components/ui/switch'
+import { cn } from '@/lib/utils'
 import { 
     Breadcrumb, 
     BreadcrumbList, 
@@ -31,6 +31,7 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 
+
 import { AppSidebar } from '@/components/app/app-sidebar'
 import { ToggleTheme } from '@/components/toggleTheme'
 import { 
@@ -54,7 +55,6 @@ const FormSchema = z.object({
     step: z.string({required_error: "Selecione a fase"}),
     equipment: z.string({required_error: "Selecione o equipamento"}),
     client_name: z.string({required_error: "Selecione o cliente"}),
-    uniorg: z.string().min(4, { message: 'Informe o uniorg da agência' }),
     qrcode: z.string().optional(),
     serial_number: z.string().optional()
 })
@@ -64,8 +64,6 @@ export function EditSerials() {
     const navigate = useNavigate()
     const { id } = useParams()
     const [clients, setClients] = useState([])
-    const [branchs, setBranchs] = useState([])
-    const [control, setControl] = useState(true)
     const [loading, setLoading] = useState(true)
     const [serial, setSerial] = useState([])
 
@@ -96,30 +94,16 @@ export function EditSerials() {
         }
     }
     
-    async function onClientChange(value: string) {
-        getBranchs(value)
-    }
-
-    const getBranchs = async (client: string) => {
-        const response = await ApiBranch.GetBranchsByClients({ client })
-        if(response && response.length > 0) {
-            setBranchs(response)
-            setControl(false)
-        } else {
-            setControl(true)
-        }
-    }
-
     const getSerial = async () => {
         const response = await ApiSerial.GetSerialByID({ id })
+        console.log(response, '')
         if (response) {
             setSerial(response)
-            form.setValue('step', response.step)
+            form.setValue('step', response.step.toString())
             form.setValue('equipment', response.equipment.toString())
-            form.setValue('client_name', response.client_name.toString())
-            form.setValue('uniorg', response.uniorg)
             form.setValue('serial_number', response.serial_number)
             form.setValue('qrcode', response.qrcode)
+            form.setValue('client_name', response.client_name)
         }
         setLoading(false)
     }
@@ -205,7 +189,7 @@ export function EditSerials() {
                                         />
                                     </div>
 
-                                    <div className='w-1/2'>
+                                    <div className='w-1/2 mr-8'>
                                         <FormField
                                             control={form.control}
                                             name="equipment"
@@ -240,8 +224,6 @@ export function EditSerials() {
                                             </FormItem>
                                         )} /> 
                                     </div>
-                                </div>
-                                <div className="flex items-center mt-5">
                                     <div className='w-1/2 mr-8'>
                                         <FormField
                                                 control={form.control}
@@ -280,35 +262,6 @@ export function EditSerials() {
                                                 </FormItem>
                                             )} /> 
                                     </div>
-                                    <div className='w-1/2'>
-                                        <FormField
-                                            control={form.control}
-                                            name="uniorg"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Uniorg</FormLabel>
-                                                    <Select onValueChange={field.onChange} defaultValue={field.value} disabled={control ? true : false}>
-                                                        <FormControl>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Selecione a Agência" />
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            {
-                                                                branchs.length ? (
-                                                                    branchs.map((branch: { id: string, uniorg: string}) => (
-                                                                        <SelectItem key={branch.id} value={branch.uniorg}>{branch.uniorg}</SelectItem>
-                                                                    ))
-                                                                ) : (
-                                                                    <SelectItem value="Nenhum branch encontrado">Nenhum branch encontrado</SelectItem>
-                                                                )
-                                                            }
-                                                        </SelectContent>
-                                                    </Select>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )} /> 
-                                    </div>                                   
                                 </div>
 
                                 <div className='pt-7'>
