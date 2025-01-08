@@ -49,7 +49,7 @@ const FormSchema = z.object({
     address: z.string().min(1, { message: 'Informe o número do registrador' }),
     value: z.string().min(1, {message: 'Mínimo 1 caracter'}),
     description: z.string().min(3, {message: 'Mínimo 3 caracteres'}),  
-    special: z.string({required_error: "Selecione se é único"}),
+    special: z.number({required_error: "Selecione se é único"}),
 })
 
 
