@@ -38,16 +38,9 @@ const deleteRegister = async (id: string, address: string, setRegister: React.Di
 export const columns = (setRegister: React.Dispatch<React.SetStateAction<Register[]>>): ColumnDef<Register>[] => [
     {
         accessorKey: 'client',
-        header: ({ column }) => {
+        header: () => {
             return (
-                <Button
-                    className='pl-0 hover:no-underline'
-                    variant='link'
-                    onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-                >
-                    <p className='text-black dark:text-white text-[12px] font-extrabold text-xs uppercase'>Cliente</p>
-                    <ArrowUpDown className='ml-3 h-4 w-4 text-gray-700 dark:text-white' />
-                </Button>
+                <p className='text-black dark:text-white text-[12px] font-extrabold text-xs uppercase'>Cliente</p>
             )
         },
         cell: ({ row }) => {
@@ -65,20 +58,27 @@ export const columns = (setRegister: React.Dispatch<React.SetStateAction<Registe
         },
         cell: ({ row }) => {
             return (
-                <p className='text-black dark:text-white text-[14.5px] font-bold'>{row.original.equipment}</p>
+                <p className='text-black dark:text-white text-[14.5px]'>{row.original.equipment}</p>
             )
         }
     },
     {
         accessorKey: 'address',
-        header: () => {
+        header: ({ column }) => {
             return (
-                <p className='text-black dark:text-white text-[12px] font-extrabold text-xs uppercase'>Registrador</p>
+                <Button
+                    className='pl-0 hover:no-underline'
+                    variant='link'
+                    onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+                >
+                    <p className='text-black dark:text-white text-[12px] font-extrabold text-xs uppercase'>Registrador</p>
+                    <ArrowUpDown className='ml-3 h-4 w-4 text-gray-700 dark:text-white' />
+                </Button>
             )
         },
         cell: ({ row }) => {
             return (
-                <p className='text-black dark:text-white text-[14.5px]'>{row.original.address}</p>
+                <p className='text-black dark:text-white text-[14.5px] font-bold'>{row.original.address}</p>
             )
         }
     },
@@ -91,7 +91,7 @@ export const columns = (setRegister: React.Dispatch<React.SetStateAction<Registe
         },
         cell: ({ row }) => {
             return (
-                <p className='text-black dark:text-white text-[14.5px] subpixel-antialiased'>{row.original.value}</p>
+                <p className='text-black dark:text-white text-[14.5px] font-bold subpixel-antialiased'>{row.original.value}</p>
             )
         }
     },
