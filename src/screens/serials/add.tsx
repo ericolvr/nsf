@@ -46,7 +46,6 @@ const FormSchema = z.object({
     step: z.string({required_error: "Selecione a fase"}),
     equipment: z.string({required_error: "Selecione o equipamento"}),
     client_name: z.string({required_error: "Selecione o cliente"}),
-    uniorg: z.string().min(4, { message: 'Informe o uniorg da agência' }),
 })
 
 
@@ -171,7 +170,7 @@ export function AddSerials() {
                                         )} /> 
                                     </div>
 
-                                    <div className='w-1/2'>
+                                    <div className='w-1/2 mr-8'>
                                         <FormField
                                             control={form.control}
                                             name="equipment"
@@ -199,10 +198,8 @@ export function AddSerials() {
                                             </FormItem>
                                         )} /> 
                                     </div>
-                                </div>
 
-                                <div className="flex items-center mt-5">
-                                    <div className='w-1/2 mr-8'>
+                                    <div className='w-1/2'>
                                         <FormField
                                                 control={form.control}
                                                 name="client_name"
@@ -236,37 +233,9 @@ export function AddSerials() {
                                                     <FormMessage />
                                                 </FormItem>
                                             )} /> 
-                                    </div>
-                                        
-                                    <div className='w-1/2'>
-                                        <FormField
-                                            control={form.control}
-                                            name="uniorg"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Uniorg</FormLabel>
-                                                    <Select onValueChange={field.onChange} defaultValue={field.value} disabled={control ? true : false}>
-                                                        <FormControl>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Selecione a Agência" />
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            {
-                                                                branchs.length ? (
-                                                                    branchs.map((branch: { id: string, uniorg: string}) => (
-                                                                        <SelectItem key={branch.id} value={branch.uniorg}>{branch.uniorg}</SelectItem>
-                                                                    ))
-                                                                ) : (
-                                                                    <SelectItem value="Nenhum branch encontrado">Nenhum branch encontrado</SelectItem>
-                                                                )
-                                                            }
-                                                        </SelectContent>
-                                                    </Select>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )} /> 
-                                    </div>                                   
+                                    </div>                           
+
+
                                 </div>
 
                                 <div className='pt-7'>
