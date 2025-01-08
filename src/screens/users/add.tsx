@@ -136,8 +136,7 @@ export function AddUsers() {
                                                             </FormControl>
                                                             <SelectContent>
                                                                 <SelectItem value='0'>Administrador</SelectItem>
-                                                                <SelectItem value='1'>Fornecedor</SelectItem>
-                                                                <SelectItem value='2'>Suporte</SelectItem>
+                                                                <SelectItem value='1'>Operador</SelectItem>
                                                             </SelectContent>
                                                         </Select>
                                                     <FormMessage />
