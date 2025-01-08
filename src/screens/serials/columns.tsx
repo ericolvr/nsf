@@ -10,7 +10,6 @@ export type Serial = {
     id: string
     serial_number: string
     client_name: string
-    uniorg: string
     step: string
     equipment: string
 }
@@ -78,19 +77,6 @@ export const columns = (setSerial: React.Dispatch<React.SetStateAction<Serial[]>
         cell: ({ row }) => {
             return (
                 <p className='text-black dark:text-white text-[14.5px]'>{row.original.client_name}</p>
-            )
-        }
-    },
-    {
-        accessorKey: 'uniorg',
-        header: () => {
-            return (
-                <p className='text-black dark:text-white text-[12px] font-extrabold text-xs uppercase'>Uniorg</p>
-            )
-        },
-        cell: ({ row }) => {
-            return (
-                <p className='text-black dark:text-white text-[14.5px]'>{row.original.uniorg}</p>
             )
         }
     },
