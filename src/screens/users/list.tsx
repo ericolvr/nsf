@@ -23,6 +23,7 @@ export function ListUsers() {
 
     const userList = async () => {
         const response = await ApiUser.GetAllUsers()
+        console.log(response, 'USERS')
         if (response) {
             setUsers(response)
         } else {
