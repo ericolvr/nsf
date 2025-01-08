@@ -6,14 +6,10 @@ import {
     Building,
     Bolt,
     ChevronsUpDown,
-    Wrench,
     LogOut,
     Users,
     NotebookTabs,
-    CalendarFold,
     Tickets,
-    Coins,
-    Wallet,
     QrCode,
     DatabaseZap
 } from 'lucide-react'
@@ -71,8 +67,8 @@ export function AppSidebar() {
                             >
                                 <Bolt className='text-[#23CFCE]' style={{ width: '27px', height: '27px' }} />
                                 <div className='flex flex-col gap-0.5 leading-none pl-2'>
-                                    <span className='font-semibold'>Alarmtek</span>
-                                    <span className='text-gray-400 text-[11px]'>Geradores</span>
+                                    <span className='font-semibold'>Alarmtek </span>
+                                    <span className='text-gray-400 text-[11px]'>Produção geradores</span>
                                 </div>
                             </SidebarMenuButton>
                         </Link>
@@ -111,14 +107,6 @@ export function AppSidebar() {
                                             </SidebarMenuButton>
                                         </Link>
                                     </SidebarMenuItem>
-                                    <SidebarMenuItem>
-                                        <Link to='/branchs/select' className='flex items-center ml-2'>
-                                            <SidebarMenuButton className='h-12 hover:bg-[#23CFCE] dark:hover:bg-[#23CFCE] dark:hover:text-black'>
-                                                <Building style={{ width: '21px', height: '21px' }} />
-                                                <span className='font-mono ml-4'>Agências</span>
-                                            </SidebarMenuButton>
-                                        </Link>
-                                    </SidebarMenuItem>
                                 </SidebarMenu>
                             )
                         }
@@ -149,22 +137,6 @@ export function AppSidebar() {
                 {
                     role === '0' && (
                     <>
-                        <SidebarGroup key={2} className='pl-5 mt-3'>
-                        <SidebarGroupLabel>Financeiro</SidebarGroupLabel>
-                        <SidebarGroupContent>
-                            <SidebarMenu>
-                                <SidebarMenuItem>
-                                    <Link to='/consolidation' className='flex items-center ml-2'>
-                                        <SidebarMenuButton className='h-12 hover:bg-[#23CFCE] dark:hover:bg-[#23CFCE] dark:hover:text-black'>
-                                            <CalendarFold style={{ width: '21px', height: '21px' }} />
-                                            <span className='font-mono ml-4'>Consolidação</span>
-                                        </SidebarMenuButton>
-                                    </Link>
-                                </SidebarMenuItem>				
-                            </SidebarMenu>
-                        </SidebarGroupContent>
-                    </SidebarGroup>
-
                     <SidebarGroup key={3} className='pl-5 mt-3'>
                         <SidebarGroupLabel>Gerenciamento</SidebarGroupLabel>
                         <SidebarGroupContent>
